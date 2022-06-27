@@ -1,15 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>微信公众号开发</title>
-    <url>/2022/06/22/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/</url>
-    <content><![CDATA[<p>12313</p>
+    <title>微信小程序开发</title>
+    <url>/2022/05/01/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/2.%20%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微信公众号开发（二）消息接收与响应</title>
+    <url>/2022/04/22/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/2.%20%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%EF%BC%882%EF%BC%89%E6%B6%88%E6%81%AF%E6%8E%A5%E6%94%B6%E4%B8%8E%E5%93%8D%E5%BA%94/</url>
+    <content><![CDATA[<h2 id="一、消息接收过程"><a href="#一、消息接收过程" class="headerlink" title="一、消息接收过程"></a>一、消息接收过程</h2><p><a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html">参考文档</a></p>
+<p>当普通微信用户向公众账号发消息时，微信服务器将 POST 消息的 XML 数据包到开发者填写的 URL 上。</p>
+<p>此前，对于我们填写的 URL ，我们已经设置了一个处理 GET 请求的<code>Controller</code>，该请求用于验证服务器的有效性。</p>
+<p>下面，我们需要再设置一个处理 GET 请求<code>Controller</code>来处理微信服务器转发过来的用户消息。</p>
+<ol>
+<li>首先创建一个实体类，封装接收的<code>xml</code>数据</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@XmlRootElement(name = &quot;xml&quot;)</span></span><br><span class="line"><span class="meta">@XmlAccessorType(XmlAccessType.FIELD)</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">InMessage</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String FromUserName;</span><br><span class="line">    <span class="keyword">protected</span> String ToUserName;</span><br><span class="line">    <span class="keyword">protected</span> Long CreateTime;</span><br><span class="line">    <span class="keyword">protected</span> String MsgType;</span><br><span class="line">    <span class="keyword">protected</span> Long MsgId;</span><br><span class="line">    <span class="keyword">private</span> String Content;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由于接收到的数据是 xml 格式，所以需要添加<code>@XmlRootElement</code> 和 <code>@XmlAccessorType</code> 两个注解来解析</p>
+<ol start="2">
+<li><p>创建处理 POST 请求的<code>Controller</code></p>
+<p>首先打印一下接收到的数据</p>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">   <span class="meta">@PostMapping(&quot;/&quot;)</span></span><br><span class="line">   <span class="meta">@ResponseBody</span></span><br><span class="line">   <span class="keyword">public</span> Object <span class="title function_">handleMessage</span><span class="params">(<span class="meta">@RequestBody</span> InMessage msg)</span> &#123;</span><br><span class="line">       System.out.println(msg.toString());</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>​        然后关注测试号，发送消息进行验证</p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261655394.png" alt="image-20220626165548261"></p>
+<p>​        查看服务端的打印结果，各字段的含义见<a href="https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html">参考文档</a></p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261657381.png" alt="image-20220626165703348"></p>
+<ol start="3">
+<li>上面，服务端已经接收到了微信服务器转发过来的消息。我们可以自定义返回的消息，来回复用户。</li>
+</ol>
+<p>   首先创建一个实体类，封装响应的<code>xml</code>数据</p>
+<p>   响应消息不用设置<code>MsgId</code></p>
+   <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@XmlRootElement(name = &quot;xml&quot;)</span></span><br><span class="line"><span class="meta">@XmlAccessorType(XmlAccessType.FIELD)</span></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OutMessage</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String FromUserName;</span><br><span class="line">    <span class="keyword">protected</span> String ToUserName;</span><br><span class="line">    <span class="keyword">protected</span> Long CreateTime;</span><br><span class="line">    <span class="keyword">protected</span> String MsgType;</span><br><span class="line">    <span class="keyword">private</span> String Content;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>   然后设置响应的消息，此时需要在<code>@PostMapping</code>上添加<code>produces= &#123;MediaType.TEXT_XML_VALUE&#125;</code>，否则会响应失败</p>
+   <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@PostMapping(value = &quot;/&quot;, produces= &#123;MediaType.TEXT_XML_VALUE&#125;)</span></span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">handleMessage</span><span class="params">(<span class="meta">@RequestBody</span> InMessage msg)</span> &#123;</span><br><span class="line">    <span class="type">OutMessage</span> <span class="variable">outMessage</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OutMessage</span>();</span><br><span class="line">    outMessage.setToUserName(msg.getFromUserName());</span><br><span class="line">    outMessage.setFromUserName(msg.getToUserName());</span><br><span class="line">    outMessage.setMsgType(msg.getMsgType());</span><br><span class="line">    outMessage.setCreateTime(System.currentTimeMillis()/<span class="number">1000</span>);</span><br><span class="line">    outMessage.setContent(msg.getContent());</span><br><span class="line">    System.out.println(msg);</span><br><span class="line">    System.out.println(outMessage);</span><br><span class="line">    <span class="keyword">return</span> outMessage;</span><br><span class="line">&#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>测试号进行测试</li>
+</ol>
+<p>   <img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261742821.png" alt="image-20220626174252777"></p>
 ]]></content>
       <categories>
         <category>前端</category>
       </categories>
       <tags>
-        <tag>前端</tag>
+        <tag>公众号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>微信公众号开发（一）验证服务器有效性</title>
+    <url>/2022/04/22/%E5%89%8D%E7%AB%AF/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7/1.%20%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%EF%BC%881%EF%BC%89%E9%AA%8C%E8%AF%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%89%E6%95%88%E6%80%A7/</url>
+    <content><![CDATA[<h2 id="一、测试号"><a href="#一、测试号" class="headerlink" title="一、测试号"></a>一、测试号</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>由于订阅号接口权限较少，需要微信认证才能获取更多的接口权限，所以推出了测试号。</p>
+<p>测试号是专门为开发人员准备的一种用于测试的公众号。通过测试号，可以熟悉更多接口的调用。</p>
+<p><a href="http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login">申请地址</a></p>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>登录测试号，可以看到测试号的相关信息</p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261124250.png" alt="image-20220626112404861"></p>
+<ol>
+<li><p>测试号信息</p>
+<p>appID：公众号的开发识别码</p>
+<p>appsecret：是校验公众号开发者身份的密码</p>
+<p>上面两个属性是平台提供的，无须配置</p>
+</li>
+<li><p>接口配置信息</p>
+<p>URL：自己的服务器地址，用来接收和响应微信服务器转发过来的用户发送的消息</p>
+<p>Token：任意填写，用于生成签名，校验服务器是否有效</p>
+</li>
+</ol>
+<h3 id="微信与我们的服务器的交互过程"><a href="#微信与我们的服务器的交互过程" class="headerlink" title="微信与我们的服务器的交互过程"></a>微信与我们的服务器的交互过程</h3><ol>
+<li>用户给公众号发送一条消息，该消息首先发送到微信的服务器上</li>
+<li>微信服务器将收到的消息封装为xml格式，然后转发到我们配置的URL地址</li>
+<li>我们的服务器接收到消息后，设置xml格式的数据进行响应</li>
+<li>响应的消息经过微信服务器转发回微信app上</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261150306.png" alt="image-20220626115020259"></p>
+<h2 id="二、验证服务器有效性"><a href="#二、验证服务器有效性" class="headerlink" title="二、验证服务器有效性"></a>二、验证服务器有效性</h2><p>验证服务器的有效性，即填写接口配置信息</p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261154011.png" alt="image-20220626115451971"></p>
+<p>填写的URL必须为公网能访问的地址。</p>
+<p>生产环境下，需要填写我们购买的域名地址；而开发环境下，由于需要多次调试，所以可以采用内网穿透的方式，填写我们分配到的URL。</p>
+<h3 id="搭建本地服务器"><a href="#搭建本地服务器" class="headerlink" title="搭建本地服务器"></a>搭建本地服务器</h3><p>本文采用Spring Boot进行开发，当然，其它框架也可。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WeChatController</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Token:要与公众平台设置的保持一致</span></span><br><span class="line"><span class="comment">     * */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">Token</span> <span class="operator">=</span> <span class="string">&quot;sun123456&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">validates</span><span class="params">(<span class="meta">@RequestParam(&quot;signature&quot;)</span> String signature,</span></span><br><span class="line"><span class="params">                            <span class="meta">@RequestParam(&quot;timestamp&quot;)</span> String timestamp,</span></span><br><span class="line"><span class="params">                            <span class="meta">@RequestParam(&quot;nonce&quot;)</span> String nonce,</span></span><br><span class="line"><span class="params">                            <span class="meta">@RequestParam(&quot;echostr&quot;)</span> String echostr)</span> &#123;</span><br><span class="line">        String[] arr = &#123;timestamp, nonce, Token&#125;;</span><br><span class="line">        <span class="comment">// 将token、timestamp、nonce三个参数进行字典序排序</span></span><br><span class="line">        Arrays.sort(arr);</span><br><span class="line">        <span class="comment">// 将三个参数字符串拼接成一个字符串进行sha1加密</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> String.join(<span class="string">&quot;&quot;</span>,arr);</span><br><span class="line">        <span class="type">String</span> <span class="variable">validStr</span> <span class="operator">=</span> DigestUtils.sha1Hex(str);</span><br><span class="line">        <span class="comment">// 开发者获得加密后的字符串可与 signature 对比，标识该请求来源于微信</span></span><br><span class="line">        <span class="comment">// 验证通过，则原样返回 echostr</span></span><br><span class="line">        <span class="keyword">return</span> validStr.equals(signature) ? echostr : <span class="string">&quot;error&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><p>内网穿透的软件有很多，这里使用的是<code>cpolar</code></p>
+<p><a href="https://www.cpolar.com/">下载地址</a></p>
+<ol>
+<li><p>下载解压后，双击运行<code>cpolar.exe</code></p>
+</li>
+<li><p>在命令行窗口执行命令<code>cpolar http 8080</code>（这里的端口号与服务器设置的端口号一致）</p>
+</li>
+<li><p>执行命令后，可以得到 对应的域名地址<code>http://ac37d14.cpolar.cn</code></p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261403748.png" alt="image-20220626140342896"></p>
+</li>
+</ol>
+<p>此时，向<code>http://ac37d14.cpolar.cn</code>发起请求，该请求会发送给<code>http://localhost:8080</code></p>
+<h3 id="填写接口配置信息"><a href="#填写接口配置信息" class="headerlink" title="填写接口配置信息"></a>填写接口配置信息</h3><p>填写正确的URL和Token</p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261407573.png" alt="image-20220626140744531"></p>
+<p>配置成功</p>
+<p><img src="https://raw.githubusercontent.com/SunHy98/img/main/202206261408253.png" alt="image-20220626140853217"></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>公众号</tag>
       </tags>
   </entry>
 </search>
