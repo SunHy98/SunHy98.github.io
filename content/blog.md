@@ -468,7 +468,7 @@ git push -f -u origin main
 
 我们将这篇博客放到 hugo 项目的 content 目录中
 
-<img src="https://cdn.jsdelivr.net/gh/SunHy98/image_site/image/image-20250327171029676.png" alt="image-20250327171029676" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/SunHy98/image_site/image/image-20250327172451118.png" alt="image-20250327172451118" style="zoom:50%;" />
 
 然后将文件提交到远程库
 
