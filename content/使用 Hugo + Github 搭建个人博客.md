@@ -1,5 +1,5 @@
 ---
-title:"使用 Hugo + Github 搭建个人博客"
+title: "使用 Hugo + Github 搭建个人博客"
 ---
 
 # Hugo 安装
