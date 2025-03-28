@@ -3,8 +3,9 @@
 # https://blowfish.page/docs/getting-started/
 
 theme = "blowfish" # UNCOMMENT THIS LINE
-baseURL = "https://SunHy98.github.io"
-defaultContentLanguage = "zh-cn"
+baseURL = "https://SunHy98.github.io" # 设置网站的访问地址
+languageCode="zh-cn" # 设置默认语言
+defaultContentLanguage = "zh-cn" # 设置默认语言
 
 # pluralizeListTitles = "true" # hugo function useful for non-english languages, find out more in  https://gohugo.io/getting-started/configuration/#pluralizelisttitles
 
@@ -19,7 +20,7 @@ enableEmoji = true
 # googleAnalytics = "G-XXXXXXXXX"
 
 [pagination]
-  pagerSize = 100
+  pagerSize = 10
 
 [imaging]
   anchor = 'Center'
@@ -67,3 +68,7 @@ enableEmoji = true
       name = 'fragmentrefs'
       type = 'fragments'
       weight = 10
+
+[services]
+  [services.disqus]
+    shortname = 'SUN'

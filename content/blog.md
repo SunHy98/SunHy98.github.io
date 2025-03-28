@@ -470,5 +470,13 @@ git push -f -u origin main
 
 <img src="https://cdn.jsdelivr.net/gh/SunHy98/image_site/image/image-20250327172451118.png" alt="image-20250327172451118" style="zoom:50%;" />
 
-然后将文件提交到远程库
+然后将文件提交到远程库，会自动进行部署
+
+<img src="https://cdn.jsdelivr.net/gh/SunHy98/image_site/image/image-20250327172723392.png" alt="image-20250327172723392" style="zoom:50%;" />
+
+部署完成后，可以访问到该博客，但是由于主题的很多功能没有配置，暂时只能使用 url 来访问该博客
+
+默认的访问路径为：博客的网址 + /文件路径
+
+<img src="https://cdn.jsdelivr.net/gh/SunHy98/image_site/image/image-20250327172946604.png" alt="image-20250327172946604" style="zoom:50%;" />
 

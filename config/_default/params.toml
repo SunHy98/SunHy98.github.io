@@ -10,7 +10,7 @@ defaultAppearance = "light" # valid options: light or dark
 autoSwitchAppearance = true
 
 enableSearch = true
-enableCodeCopy = false
+enableCodeCopy = true
 
 replyByEmail = false
 
@@ -21,11 +21,11 @@ disableImageOptimization = false
 disableTextInHeader = false
 # backgroundImageWidth = 1200
 
-# defaultBackgroundImage = "IMAGE.jpg" # used as default for background images 
-# defaultFeaturedImage = "IMAGE.jpg" # used as default for featured images in all articles
+defaultBackgroundImage = "background.png" # used as default for background images 
+defaultFeaturedImage = "background.png" # used as default for featured images in all articles
 
-# highlightCurrentMenuArea = true
-# smartTOC = true
+highlightCurrentMenuArea = true
+smartTOC = true
 # smartTOCHideUnfocusedChildren = true
 
 giteaDefaultServer = "https://git.fsfe.org"
@@ -35,57 +35,58 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layout = "basic" # valid options: basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur
 
 [footer]
-  showMenu = true
-  showCopyright = true
+  showMenu = false
+  showCopyright = false
   showThemeAttribution = true
   showAppearanceSwitcher = true
   showScrollToTop = true
 
 [homepage]
-  layout = "profile" # valid options: page, profile, hero, card, background, custom
-  #homepageImage = "IMAGE.jpg" # used in: hero, and card
-  showRecent = false
-  showRecentItems = 5
-  showMoreLink = false
+  layout = "hero" # valid options: page, profile, hero, card, background, custom
+  homepageImage = "background.png" # used in: hero, and card
+  showRecent = true
+  showRecentItems = 6
+  showMoreLink = true
   showMoreLinkDest = "/posts/"
-  cardView = false
+  cardView = true
   cardViewScreenWidth = false
-  layoutBackgroundBlur = false # only used when layout equals background
+  layoutBackgroundBlur = true # only used when layout equals background
 
 [article]
   showDate = true
-  showViews = false
-  showLikes = false
+  showViews = true
+  showLikes = true
   showDateOnlyInArticle = false
-  showDateUpdated = false
+  showDateUpdated = true
   showAuthor = true
   # showAuthorBottom = false
-  showHero = false
+  showHero = true
   # heroStyle = "basic" # valid options: basic, big, background, thumbAndBackground
   layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground
   layoutBackgroundHeaderSpace = true # only used when heroStyle equals background
   showBreadcrumbs = false
   showDraftLabel = true
-  showEdit = false
-  # editURL = "https://github.com/username/repo/"
+  showEdit = true
+  editURL = "https://github.com/SunHy98/SunHy98.github.io/blob/main/content/"
   editAppendPath = true
   seriesOpened = false
   showHeadingAnchors = true
   showPagination = true
   invertPagination = false
   showReadingTime = true
-  showTableOfContents = false
+  showTableOfContents = true
   # showRelatedContent = false
   # relatedContentLimit = 3
-  showTaxonomies = false
+  showTaxonomies = true
   showAuthorsBadges = false
   showWordCount = true
+  showComments = true
   # sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram"]
   showZenMode = false
 
 [list]
-  showHero = false
-  # heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
+  showHero = true
+  heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
   layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground
   layoutBackgroundHeaderSpace = true # only used when heroStyle equals background
   showBreadcrumbs = false
@@ -96,7 +97,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showCards = false
   orderByWeight = false
   groupByYear = true
-  cardView = false
+  cardView = true
   cardViewScreenWidth = false
   constrainItemsWidth = false
 
@@ -125,13 +126,13 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   cardViewScreenWidth = false
 
 [firebase]
-  # apiKey = "XXXXXX"
-  # authDomain = "XXXXXX"
-  # projectId = "XXXXXX"
-  # storageBucket = "XXXXXX"
-  # messagingSenderId = "XXXXXX"
-  # appId = "XXXXXX"
-  # measurementId = "XXXXXX"
+  apiKey = "AIzaSyBZRLZBKH95UMT5cqE0sMn0DeS5Iy-s2hg"
+  authDomain = "github-blog-fb748.firebaseapp.com"
+  projectId = "github-blog-fb748"
+  storageBucket = "github-blog-fb748.firebasestorage.app"
+  messagingSenderId = "551021780716"
+  appId = "1:551021780716:web:4b79aeb07bc39450f98fc9"
+  measurementId = "G-HCBZ5Q2MQL"
 
 [fathomAnalytics]
   # site = "ABC12345"

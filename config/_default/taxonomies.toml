@@ -1,0 +1,14 @@
+# 定义文章分类
+
+# 前端分类
+frontend = "frontends"
+# 后端分类
+backend = "backends"
+# 数据库分类
+database = "databases"
+# 三维分类
+three = "threes"
+# 运维分类
+ops = "ops"
+# 其他分类
+other = "others"
